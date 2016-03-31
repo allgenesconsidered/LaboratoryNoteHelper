@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">LaboratoryNoteHelper</string>
+    <string name="note_title_hint">Enter a title</string>
+    <string name="note_title_label">Title</string>
+    <string name="note_celltype_hint">Cell Type?</string>
+    <string name="note_celltype_label">Cell Type</string>
+    <string name="crime_details_label">Details</string>
+    <string name="note_body_hint">...</string>
+    <string name="note_body_label">Note</string>
+
+    <string name="new_note"> New Note</string>
+    <string name="remove_note">Delete</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <plurals name="subtitle_plural">
+        <item quantity="one">%1$s crime</item>
+        <item quantity="other">%1$s crimes</item>
+    </plurals>
+
+</resources>
