@@ -1,6 +1,6 @@
 package com.mememachine.mike.laboratorynotehelper;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -145,7 +145,7 @@ public class NoteListFragment extends Fragment{
             case R.id.menu_item_new_note:
                 Note note = new Note();
                 ListOfNotes.get(getActivity()).addNote(note);
-                Intent intent = NotePagerActivity
+                Intent intent = NewNoteActivity
                         .newIntent(getActivity(), note.getID());
                 startActivity(intent);
                 //“Once you have handled the MenuItem, you should return true

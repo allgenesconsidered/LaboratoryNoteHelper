@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import java.util.UUID;
 
 public class NoteListActivity extends SingleFragmentActivity {
     //First class called at start of application. Instantiates NoteListFragment.class.

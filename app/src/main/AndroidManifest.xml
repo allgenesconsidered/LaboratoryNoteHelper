@@ -15,10 +15,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity android:name=".NotePagerActivity"
                   android:label="LaboratoryNoteHelper"
             android:parentActivityName=".NoteListActivity">
+        </activity>
+        <activity android:name=".NewNoteActivity"
+                  android:label="LaboratoryNoteHelper"
+                  android:parentActivityName=".NotePagerActivity">
         </activity>
     </application>
 </manifest>

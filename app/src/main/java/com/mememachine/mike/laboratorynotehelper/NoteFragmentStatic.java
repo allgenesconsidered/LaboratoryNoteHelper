@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,22 +27,22 @@ import java.util.UUID;
 /**
  * Instantiates a fragment instance of a selected note, and inflates the layout.
  */
-public class NoteFragment extends Fragment{
+public class NoteFragmentStatic extends Fragment{
     private static final String ARG_NOTE_ID = "note_id";
 
     private Note mNote;
-    private EditText mTitleField;
-    private EditText mCellTypeField;
-    private EditText mBodyField;
+    private TextView mTitleField;
+    private TextView mCellTypeField;
+    private TextView mBodyField;
     private Button mDateButton;
 
-    public static NoteFragment newInstance(UUID noteID){
-        //Returns an instance of NoteFragment.class corresponding
+    public static NoteFragmentStatic newInstance(UUID noteID){
+        //Returns an instance of class corresponding
         //to the given UUID.
         Bundle args = new Bundle();
         args.putSerializable(ARG_NOTE_ID, noteID);
 
-        NoteFragment fragment = new NoteFragment();
+        NoteFragmentStatic fragment = new NoteFragmentStatic();
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,69 +69,20 @@ public class NoteFragment extends Fragment{
                              Bundle savedInstanceState){
         //inflater.inflate(int resource, Viewgroup root, boolean attached to root?)
         //We are explicitly inflating the fragment_crime.xml part of the resource
-        View v = inflater.inflate(R.layout.fragment_note, container, false);
+        View v = inflater.inflate(R.layout.fragment_note_static, container, false);
 
-        mTitleField = (EditText) v.findViewById(R.id.note_title);
+        mTitleField = (TextView) v.findViewById(R.id.note_title);
         mTitleField.setText(mNote.getTitle());
-        mTitleField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //Blank
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //Set the typed message to the title of the Note() instance.
-                mNote.setTitle(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                //BLANK, add more later to save titles and stuff. Major TODO.
-            }
-        });
 
         mDateButton = (Button) v.findViewById(R.id.note_date);
         mDateButton.setText(mNote.getStringDate());
         mDateButton.setEnabled(false);
 
-        mCellTypeField = (EditText) v.findViewById(R.id.note_celltype);
+        mCellTypeField = (TextView) v.findViewById(R.id.note_celltype);
         mCellTypeField.setText(mNote.getCellType());
-        mCellTypeField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //None
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mNote.setCellType(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                //None
-            }
-        });
-
-        mBodyField = (EditText) v.findViewById(R.id.note_body);
+        mBodyField = (TextView) v.findViewById(R.id.note_body);
         mBodyField.setText(mNote.getBody());
-        mBodyField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //None
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mNote.setBody(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                //None
-            }
-        });
 
         //Explicitly return the view that was inflated.
         return v;
@@ -139,22 +91,27 @@ public class NoteFragment extends Fragment{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_note, menu);
+        inflater.inflate(R.menu.fragment_note_static, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             //pressed 'Delete' button.
-            case R.id.menu_item_delete_note:
-                deleteAlertDialog();
+            case R.id.menu_item_edit_note:
                 //“Once you have handled the MenuItem, you should return true
                 // to indicate that no further processing is necessary.”
+                Intent intent = NewNoteActivity.newIntent(getActivity(), mNote.getID());
+                startActivity(intent);
+                return true;
+            case R.id.menu_item_delete_note_static:
+                deleteAlertDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
     public void deleteAlertDialog(){
         new AlertDialog.Builder(this.getContext())
                 .setTitle("Deleting note...")
@@ -170,9 +127,9 @@ public class NoteFragment extends Fragment{
                                 ListOfNotes.get(getActivity()).deleteNote(mNote);
                                 Intent intent = NoteListActivity.newIntent(getActivity());
                                 startActivity(intent);
-
                             }
                         }).create().show();
     }
+
 
 }

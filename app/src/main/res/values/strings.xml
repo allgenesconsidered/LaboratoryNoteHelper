@@ -12,6 +12,8 @@
     <string name="remove_note">Delete</string>
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="edit_note">EDIT  </string>
+    <string name="delete_note">Delete</string>
     <plurals name="subtitle_plural">
         <item quantity="one">%1$s crime</item>
         <item quantity="other">%1$s crimes</item>
