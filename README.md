@@ -9,5 +9,4 @@ TODO:
   - Bulk export results (google drive, evernote).
   
 BUGS:
-  - Changes to a note are not saved if the user presses back insteat of the up button (i should probably add a "save" button as well).
-  - Verify that empty notes are cleared out of the SQLite database. 
+  - When a note is edited, the user is shown the note at the first index, instead of the note they just edited (pass the index as an extra?).
