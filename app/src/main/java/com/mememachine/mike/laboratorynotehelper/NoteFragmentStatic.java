@@ -57,8 +57,8 @@ public class NoteFragmentStatic extends Fragment{
     }
 
     @Override
-    public void onPause(){
-        super.onPause();
+    public void onResume(){
+        super.onResume();
         ListOfNotes.get(getActivity())
                 .updateNote(mNote);
     }

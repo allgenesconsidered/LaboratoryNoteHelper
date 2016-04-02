@@ -60,5 +60,5 @@ public class NotePagerActivity extends AppCompatActivity {
             }
         }
     }
-
 }
+
