@@ -136,21 +136,16 @@ public class NoteFragmentEdit extends Fragment{
                 ListOfNotes.get(getActivity()).updateNote(mNote);
                 Snackbar.make(view, "Done!", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
-                Intent intent = new Intent(getActivity(), NotePagerActivity.class);
+                Intent intent = NotePagerActivity.newIntent(getActivity(), mNote.getID());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 getActivity().finish();
-
             }
         });
 
         //Explicitly return the view that was inflated.
         return v;
     }
-
-
-
-
 
 
     @Override

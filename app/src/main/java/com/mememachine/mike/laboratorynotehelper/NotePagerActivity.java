@@ -26,6 +26,12 @@ public class NotePagerActivity extends AppCompatActivity {
 
 
     public static Intent newIntent(Context packageContext, UUID noteID){
+        /*
+        Use this intent method when transitioning between fragments. That way the pager
+        knows what note to display.
+        Input: Context of the Activity you're transitioning from, UUID of the note to display.
+        Output: Intent to switch to the NotePagerActivity.
+        */
         Intent intent = new Intent(packageContext, NotePagerActivity.class);
         intent.putExtra(EXTRA_NOTE_ID_NUM, noteID);
         return intent;
