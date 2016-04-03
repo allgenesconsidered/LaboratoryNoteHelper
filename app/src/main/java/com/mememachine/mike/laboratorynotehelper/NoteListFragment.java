@@ -62,8 +62,10 @@ public class NoteListFragment extends Fragment{
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(mNote.getStringDate());
             mCellTypeTextView.setText(mNote.getCellType());
-            String body = mNote.getBody();
-            mBodyTextView.setText(body.substring(0, Math.min(body.length(), 200)));
+            if (mNote.getBody() != null) {
+                String body = mNote.getBody();
+                mBodyTextView.setText(body.substring(0, Math.min(body.length(), 200)));
+            }
         }
         @Override
         public void onClick(View v){
