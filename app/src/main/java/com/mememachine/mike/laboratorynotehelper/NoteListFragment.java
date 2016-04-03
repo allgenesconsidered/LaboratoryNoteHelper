@@ -3,6 +3,7 @@ package com.mememachine.mike.laboratorynotehelper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ public class NoteListFragment extends Fragment{
 
     private RecyclerView mNoteRecycleView;
     private NoteAdapter mAdapter;
+    private FloatingActionButton mFloatingActionButton;
     private boolean mSubtitleVisible;
 
     @Override
@@ -41,6 +43,7 @@ public class NoteListFragment extends Fragment{
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private TextView mCellTypeTextView;
+        private TextView mBodyTextView;
 
         public NoteHolder(View itemView){
             //Set method variables
@@ -50,6 +53,7 @@ public class NoteListFragment extends Fragment{
             mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_notes_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.list_item_notes_date_text_view);
             mCellTypeTextView = (TextView) itemView.findViewById(R.id.list_item_notes_celltype);
+            mBodyTextView = (TextView) itemView.findViewById(R.id.list_item_notes_body);
 
         }
         public void bindNote(Note note){
@@ -58,6 +62,8 @@ public class NoteListFragment extends Fragment{
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(mNote.getStringDate());
             mCellTypeTextView.setText(mNote.getCellType());
+            String body = mNote.getBody();
+            mBodyTextView.setText(body.substring(0, Math.min(body.length(), 200)));
         }
         @Override
         public void onClick(View v){
@@ -108,6 +114,14 @@ public class NoteListFragment extends Fragment{
             mSubtitleVisible = savedInstanceState.getBoolean(SUBTITLE_VISIBLE_BOOL);
         }
         updateUI();
+
+        mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_add_note);
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addNewNote();
+            }
+        });
         return view;
     }
 
@@ -143,11 +157,7 @@ public class NoteListFragment extends Fragment{
         switch (item.getItemId()){
             //pressed 'New Crime' button.
             case R.id.menu_item_new_note:
-                Note note = new Note();
-                ListOfNotes.get(getActivity()).addNote(note);
-                Intent intent = NewNoteActivity
-                        .newIntent(getActivity(), note.getID());
-                startActivity(intent);
+                addNewNote();
                 //“Once you have handled the MenuItem, you should return true
                 // to indicate that no further processing is necessary.”
                 return true;
@@ -160,6 +170,14 @@ public class NoteListFragment extends Fragment{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void addNewNote(){
+        Note note = new Note();
+        ListOfNotes.get(getActivity()).addNote(note);
+        Intent intent = NewNoteActivity
+                .newIntent(getActivity(), note.getID());
+        startActivity(intent);
     }
 
     private void updateSubtitle(){

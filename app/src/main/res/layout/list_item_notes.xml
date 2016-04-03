@@ -3,32 +3,51 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:clickable="false">
-
-    <TextView
-        android:layout_width="wrap_content"
+                android:clickable="false"
+                android:padding="4dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list_item_notes_celltype"
-        android:layout_alignParentRight="true"
-        android:padding="4dp"
-        tools:text="(add cell type)"/>
+        android:id="@+id/top_half_layout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_item_notes_celltype"
+            android:textSize="10sp"
+            android:layout_alignParentRight="true"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            tools:text="(add cell type)"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_item_notes_title"
+            android:layout_toLeftOf="@id/list_item_notes_celltype"
+            android:textStyle="bold"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            tools:text="Crime Title"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_item_notes_date_text_view"
+            android:layout_toLeftOf="@+id/list_item_notes_celltype"
+            android:layout_below="@id/list_item_notes_title"
+            android:textColor="@color/colorPrimary"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textSize="10sp"
+            tools:text="Crime Date"/>
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list_item_notes_title"
-        android:layout_toLeftOf="@id/list_item_notes_celltype"
-        android:textStyle="bold"
-        android:padding="4dp"
-        tools:text="Crime Title"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_item_notes_date_text_view"
-        android:layout_toLeftOf="@+id/list_item_notes_celltype"
-        android:layout_below="@id/list_item_notes_title"
-        android:padding="4dp"
-        tools:text="Crime Date"/>
+        android:id="@+id/list_item_notes_body"
+        android:layout_below="@id/top_half_layout"
+        android:textSize="8sp"
+        tools:text="First Part of body"/>
 
 </RelativeLayout>
