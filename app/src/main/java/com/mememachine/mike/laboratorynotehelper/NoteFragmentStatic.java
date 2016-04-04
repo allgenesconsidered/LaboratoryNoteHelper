@@ -3,6 +3,7 @@ package com.mememachine.mike.laboratorynotehelper;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.UUID;
@@ -30,11 +33,13 @@ import java.util.UUID;
 public class NoteFragmentStatic extends Fragment{
     private static final String ARG_NOTE_ID = "note_id";
 
+    public File mNotePhoto;
     private Note mNote;
     private TextView mTitleField;
     private TextView mCellTypeField;
     private TextView mBodyField;
     private Button mDateButton;
+    private ImageView mNotePhotoView;
 
     public static NoteFragmentStatic newInstance(UUID noteID){
         //Returns an instance of class corresponding
@@ -52,7 +57,7 @@ public class NoteFragmentStatic extends Fragment{
         super.onCreate(savedInstanceState);
         UUID noteID = (UUID) getArguments().getSerializable(ARG_NOTE_ID);
         mNote = ListOfNotes.get(getActivity()).getNote(noteID);
-
+        mNotePhoto = ListOfNotes.get(getActivity()).getPhotoFile(mNote);
         setHasOptionsMenu(true);
     }
 
@@ -83,6 +88,9 @@ public class NoteFragmentStatic extends Fragment{
 
         mBodyField = (TextView) v.findViewById(R.id.note_body);
         mBodyField.setText(mNote.getBody());
+
+        mNotePhotoView = (ImageView) v.findViewById(R.id.note_photo);
+        updatePhotoView(mNotePhotoView, mNotePhoto);
 
         //Explicitly return the view that was inflated.
         return v;
@@ -131,5 +139,14 @@ public class NoteFragmentStatic extends Fragment{
                         }).create().show();
     }
 
+    public void updatePhotoView(ImageView imageView, File file) {
+        if (file == null || !file.exists()) {
+            imageView.setImageDrawable(null);
+        } else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(
+                    file.getPath(), getActivity());
+            imageView.setImageBitmap(bitmap);
+        }
+    }
 
 }

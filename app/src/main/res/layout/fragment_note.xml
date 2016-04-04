@@ -1,84 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_container"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
-                  android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/note_title_label"
-            style="?android:listSeparatorTextViewStyle"
-            />
-
-        <EditText android:id="@+id/note_title"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:hint="@string/note_title_hint"
-                  android:inputType="textCapSentences"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/crime_details_label"
-            style="?android:listSeparatorTextViewStyle"
-            />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
-
-            <Button android:id="@+id/note_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-            <EditText android:id="@+id/note_celltype"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:hint="@string/note_celltype_hint"
-                      android:gravity="center"
-                      android:layout_weight="1"
-                      android:inputType="textCapCharacters"
-                        android:textStyle="bold"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/note_body_label"
-            style="?android:listSeparatorTextViewStyle"/>
-        <EditText
+            android:id="@+id/top_half_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/note_body"
-            android:gravity="start"
-            android:hint="@string/note_body_hint"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:inputType="textCapSentences|textMultiLine"
-            />
+            android:orientation="horizontal"
+            android:layout_weight="0.6">
 
+            <ImageView
+                android:id="@+id/note_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:scaleType="centerInside"
+                android:background="@android:color/darker_gray"
+                android:cropToPadding="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_half_layout"
+            android:orientation="vertical"
+            android:layout_weight="0.4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/note_title_label"
+                style="?android:listSeparatorTextViewStyle"
+                />
+
+            <EditText android:id="@+id/note_title"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="@string/note_title_hint"
+                      android:inputType="textCapSentences"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/crime_details_label"
+                style="?android:listSeparatorTextViewStyle"
+                />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+
+                <Button android:id="@+id/note_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimary"/>
+
+                <EditText android:id="@+id/note_celltype"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:hint="@string/note_celltype_hint"
+                          android:gravity="center"
+                          android:layout_weight="1"
+                          android:inputType="textCapCharacters"
+                            android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/note_body_label"
+                style="?android:listSeparatorTextViewStyle"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/note_body"
+                    android:gravity="start"
+                    android:hint="@string/note_body_hint"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:layout_gravity="left|top"
+                    android:paddingRight="8dp"
+                    android:layout_weight="0.15"/>
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:id="@+id/image_button_finished_edit"
+                    android:bottomRightRadius="10dp"
+                    android:bottomLeftRadius="10dp"
+                    android:topLeftRadius="10dp"
+                    android:topRightRadius="10dp"
+                    android:layout_weight="0.85"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="24dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_gravity="right|center"/>
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_finished_edit"
-        style="@style/Widget.Design.FloatingActionButton"
+        android:id="@+id/fab_take_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_menu_edit"/>
-
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_anchor="@id/top_half_layout"
+        app:layout_anchorGravity="bottom|right|end"/>
 </android.support.design.widget.CoordinatorLayout>

@@ -58,27 +58,33 @@
             android:layout_height="wrap_content"
             android:text="@string/note_body_label"
             style="?android:listSeparatorTextViewStyle"/>
-        <EditText
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/note_body"
-            android:gravity="start"
-            android:hint="@string/note_body_hint"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:inputType="textCapSentences|textMultiLine"
-            />
+            android:layout_marginRight="16dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/note_body"
+                android:gravity="start"
+                android:hint="@string/note_body_hint"
+                android:inputType="textCapSentences|textMultiLine"
+                android:layout_gravity="left|top"
+                android:layout_weight="0.10"/>
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@android:drawable/ic_menu_edit"
+                android:id="@+id/image_button_finished_edit"
+                android:layout_weight="0.90"
+                android:layout_marginBottom="4dp"
+                android:background="@color/colorPrimaryDark"
+                android:layout_gravity="right|center"/>
 
-
+        </LinearLayout>
     </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-    android:id="@+id/fab_finished_edit"
-    style="@style/Widget.Design.FloatingActionButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|end"
-    android:layout_margin="@dimen/fab_margin"
-    android:src="@android:drawable/ic_menu_edit"/>
 
 </android.support.design.widget.CoordinatorLayout>

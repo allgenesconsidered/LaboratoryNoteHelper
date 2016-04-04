@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 
 import com.mememachine.mike.laboratorynotehelper.database.NoteBaseHelper;
 import com.mememachine.mike.laboratorynotehelper.database.NoteCursorWrapper;
 import com.mememachine.mike.laboratorynotehelper.database.NoteSchema;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -57,14 +59,14 @@ public class ListOfNotes {
     public void deleteNote(Note n) {
         String id = n.getID().toString();
         mSQLiteDatabase.delete(NoteSchema.NoteTable.NAME,
-                NoteSchema.NoteTable.Cols.UUID + "= ?", new String[] {id});
+                NoteSchema.NoteTable.Cols.UUID + "= ?", new String[]{id});
     }
 
     public Note getNote(UUID id){
         //Returns a note with a certain ID
         NoteCursorWrapper cursorWrapper = queryNotes(
                 NoteSchema.NoteTable.Cols.UUID + " = ?",
-                new String[] {id.toString()}
+                new String[]{id.toString()}
         );
 
         try {
@@ -77,6 +79,15 @@ public class ListOfNotes {
         } finally {
             cursorWrapper.close();
         }
+    }
+
+    public File getPhotoFile(Note note){
+        File externalFilesDir = mContext
+                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if (externalFilesDir == null){
+            return null;
+        }
+        return new File(externalFilesDir, note.getPhotoFilename());
     }
 
     public void updateNote(Note note) {

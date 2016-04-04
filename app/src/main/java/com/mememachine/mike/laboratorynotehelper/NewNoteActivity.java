@@ -31,8 +31,8 @@ public class NewNoteActivity  extends SingleFragmentActivity{
         new AlertDialog.Builder(this)
                 .setTitle("Cancel Edits")
                 .setMessage("Are you sure you want to cancel editing this note?")
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes,
+                .setNegativeButton("Oops..", null)
+                .setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

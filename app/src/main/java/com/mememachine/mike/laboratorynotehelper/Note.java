@@ -61,4 +61,8 @@ public class Note {
     public String getBody() {return mBody;}
 
     public void setBody(String body) {mBody = body;}
+
+    public String getPhotoFilename() {
+        return "IMG_" + getID().toString() + ".jpg";
+    }
 }
