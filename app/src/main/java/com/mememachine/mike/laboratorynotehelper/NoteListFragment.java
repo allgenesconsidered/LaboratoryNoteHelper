@@ -2,6 +2,7 @@ package com.mememachine.mike.laboratorynotehelper;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -14,8 +15,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mememachine.mike.laboratorynotehelper.imageRes.PictureUtils;
+
+import java.io.File;
 import java.util.List;
 
 
@@ -40,9 +45,10 @@ public class NoteListFragment extends Fragment{
         //to see what note is pushed.
         //NoteHolder Holds the instances of the different recyclerview objects.
         private Note mNote;
+        public File mNotePhoto;
         private TextView mTitleTextView;
         private TextView mDateTextView;
-        private TextView mCellTypeTextView;
+        private ImageView mNoteImage;
         private TextView mBodyTextView;
 
         public NoteHolder(View itemView){
@@ -52,7 +58,7 @@ public class NoteListFragment extends Fragment{
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_notes_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.list_item_notes_date_text_view);
-            mCellTypeTextView = (TextView) itemView.findViewById(R.id.list_item_notes_celltype);
+            mNoteImage = (ImageView) itemView.findViewById(R.id.list_item_notes_image);
             mBodyTextView = (TextView) itemView.findViewById(R.id.list_item_notes_body);
 
         }
@@ -61,7 +67,8 @@ public class NoteListFragment extends Fragment{
             mNote = note;
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(mNote.getStringDate());
-            mCellTypeTextView.setText(mNote.getCellType());
+            mNotePhoto = ListOfNotes.get(getActivity()).getPhotoFile(mNote);
+            updatePhotoView(mNoteImage, mNotePhoto);
             if (mNote.getBody() != null) {
                 String body = mNote.getBody();
                 mBodyTextView.setText(body.substring(0, Math.min(body.length(), 200)));
@@ -211,5 +218,15 @@ public class NoteListFragment extends Fragment{
             mAdapter.notifyDataSetChanged();
         }
         updateSubtitle();
+    }
+
+    public void updatePhotoView(ImageView imageView, File file) {
+        if (file == null || !file.exists()) {
+            imageView.setImageDrawable(null);
+        } else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(
+                    file.getPath(), getActivity());
+            imageView.setImageBitmap(bitmap);
+        }
     }
 }

@@ -26,6 +26,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.mememachine.mike.laboratorynotehelper.imageRes.PictureUtils;
+
 import java.io.File;
 import java.util.UUID;
 

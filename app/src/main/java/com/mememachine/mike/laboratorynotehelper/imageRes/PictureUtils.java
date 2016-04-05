@@ -1,13 +1,18 @@
-package com.mememachine.mike.laboratorynotehelper;
+package com.mememachine.mike.laboratorynotehelper.imageRes;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Bitmap.Config;
+import android.graphics.PorterDuff.Mode;
 
-/**
- * Created by mike on 4/3/16.
- */
+
 public class PictureUtils {
 
     public static Bitmap getScaledBitmap(String path, Activity activity) {
@@ -23,21 +28,14 @@ public class PictureUtils {
         BitmapFactory.decodeFile(path, options);
 
         float srcWidth = options.outWidth;
-        float srcHeight = options.outHeight;
 
         //Figure out how much to scale down by
-        int inSampleSize = 1;
-        if (srcHeight > destHeight || srcWidth > destWidth) {
-            if (srcWidth > srcHeight) {
-                inSampleSize = Math.round(srcHeight / destHeight);
-            } else {
-                inSampleSize = Math.round(srcWidth / destWidth);
-            }
+        if (srcWidth > destWidth) {
+            int widthRatio = (int) Math.round((srcWidth / (float) destWidth) * 1.5);
+            options = new BitmapFactory.Options();
+            options.inSampleSize = widthRatio;
         }
-
-        options = new BitmapFactory.Options();
-        options.inSampleSize = inSampleSize;
-
         return BitmapFactory.decodeFile(path, options);
     }
+
 }
