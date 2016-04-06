@@ -25,7 +25,7 @@ import java.util.UUID;
 /**
  * Instantiates a fragment instance of a selected note, and inflates the layout.
  */
-public class NoteFragmentStatic extends Fragment{
+public class NotePagerFragment extends Fragment{
     private static final String ARG_NOTE_ID = "note_id";
 
     public File mNotePhoto;
@@ -36,13 +36,13 @@ public class NoteFragmentStatic extends Fragment{
     private Button mDateButton;
     private ImageView mNotePhotoView;
 
-    public static NoteFragmentStatic newInstance(UUID noteID){
+    public static NotePagerFragment newInstance(UUID noteID){
         //Returns an instance of class corresponding
         //to the given UUID.
         Bundle args = new Bundle();
         args.putSerializable(ARG_NOTE_ID, noteID);
 
-        NoteFragmentStatic fragment = new NoteFragmentStatic();
+        NotePagerFragment fragment = new NotePagerFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,15 +51,15 @@ public class NoteFragmentStatic extends Fragment{
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         UUID noteID = (UUID) getArguments().getSerializable(ARG_NOTE_ID);
-        mNote = ListOfNotes.get(getActivity()).getNote(noteID);
-        mNotePhoto = ListOfNotes.get(getActivity()).getPhotoFile(mNote);
+        mNote = DatabaseFunctions.get(getActivity()).getNote(noteID);
+        mNotePhoto = DatabaseFunctions.get(getActivity()).getPhotoFile(mNote);
         setHasOptionsMenu(true);
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        ListOfNotes.get(getActivity())
+        DatabaseFunctions.get(getActivity())
                 .updateNote(mNote);
     }
 
@@ -104,7 +104,7 @@ public class NoteFragmentStatic extends Fragment{
             case R.id.menu_item_edit_note:
                 //“Once you have handled the MenuItem, you should return true
                 // to indicate that no further processing is necessary.”
-                Intent intent = NewNoteActivity.newIntent(getActivity(), mNote.getID());
+                Intent intent = NoteEditorActivity.newIntent(getActivity(), mNote.getID());
                 startActivity(intent);
                 return true;
             case R.id.menu_item_delete_note_static:
@@ -127,7 +127,7 @@ public class NoteFragmentStatic extends Fragment{
                                 //TODO delete Note from database
                                 //Switching between activities is a bit easier than switching from
                                 //different Fragments.
-                                ListOfNotes.get(getActivity()).deleteNote(mNote);
+                                DatabaseFunctions.get(getActivity()).deleteNote(mNote);
                                 Intent intent = NoteListActivity.newIntent(getActivity());
                                 startActivity(intent);
                             }

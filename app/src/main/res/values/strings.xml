@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LaboratoryNoteHelper</string>
+    <string name="app_name">Lab Rat</string>
     <string name="note_title_hint">Enter a title</string>
     <string name="note_title_label">Title</string>
     <string name="note_celltype_hint">Cell Type?</string>
@@ -15,8 +15,8 @@
     <string name="edit_note">EDIT  </string>
     <string name="delete_note">Delete</string>
     <plurals name="subtitle_plural">
-        <item quantity="one">%1$s crime</item>
-        <item quantity="other">%1$s crimes</item>
+        <item quantity="one">%1$s note</item>
+        <item quantity="other">%1$s notes</item>
     </plurals>
 
 </resources>

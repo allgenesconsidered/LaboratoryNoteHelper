@@ -18,7 +18,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mememachine.mike.laboratorynotehelper.general.GenAppContext;
 import com.mememachine.mike.laboratorynotehelper.imageRes.PictureUtils;
+import com.mememachine.mike.laboratorynotehelper.imageRes.SimpleDividerItemDecoration;
 
 import java.io.File;
 import java.util.List;
@@ -67,7 +69,7 @@ public class NoteListFragment extends Fragment{
             mNote = note;
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(mNote.getStringDate());
-            mNotePhoto = ListOfNotes.get(getActivity()).getPhotoFile(mNote);
+            mNotePhoto = DatabaseFunctions.get(getActivity()).getPhotoFile(mNote);
             updatePhotoView(mNoteImage, mNotePhoto);
             if (mNote.getBody() != null) {
                 String body = mNote.getBody();
@@ -183,8 +185,8 @@ public class NoteListFragment extends Fragment{
 
     private void addNewNote(){
         Note note = new Note();
-        ListOfNotes.get(getActivity()).addNote(note);
-        Intent intent = NewNoteActivity
+        DatabaseFunctions.get(getActivity()).addNote(note);
+        Intent intent = NoteEditorActivity
                 .newIntent(getActivity(), note.getID());
         startActivity(intent);
     }
@@ -192,7 +194,7 @@ public class NoteListFragment extends Fragment{
     private void updateSubtitle(){
         //Produces subtitles for the RecycleViews, based on the size of the
         //total number of crimes.
-        ListOfNotes noteList = ListOfNotes.get(getActivity());
+        DatabaseFunctions noteList = DatabaseFunctions.get(getActivity());
         int noteCount = noteList.getNotes().size();
         String subtitle = getResources()
                 .getQuantityString(R.plurals.subtitle_plural,
@@ -205,7 +207,7 @@ public class NoteListFragment extends Fragment{
     }
 
     private void updateUI(){
-        ListOfNotes listNotes = ListOfNotes.get(getActivity());
+        DatabaseFunctions listNotes = DatabaseFunctions.get(getActivity());
         List<Note> notes = listNotes.getNotes();
 
         if(mAdapter == null) {

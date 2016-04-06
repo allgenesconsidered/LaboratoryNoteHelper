@@ -1,13 +1,10 @@
 package com.mememachine.mike.laboratorynotehelper;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -44,13 +41,13 @@ public class NotePagerActivity extends AppCompatActivity {
 
         UUID noteID = (UUID) getIntent().getSerializableExtra(EXTRA_NOTE_ID_NUM);
         mViewPager = (ViewPager) findViewById(R.id.activity_note_pager_view);
-        mNotes = ListOfNotes.get(this).getNotes();
+        mNotes = DatabaseFunctions.get(this).getNotes();
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
             @Override
             public Fragment getItem(int position) {
                 Note note = mNotes.get(position);
-                return NoteFragmentStatic.newInstance(note.getID());
+                return NotePagerFragment.newInstance(note.getID());
             }
 
             @Override

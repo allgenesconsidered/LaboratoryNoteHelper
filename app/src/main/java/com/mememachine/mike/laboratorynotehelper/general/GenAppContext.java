@@ -1,4 +1,4 @@
-package com.mememachine.mike.laboratorynotehelper;
+package com.mememachine.mike.laboratorynotehelper.general;
 
 import android.app.Application;
 import android.content.Context;

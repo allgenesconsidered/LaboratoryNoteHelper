@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+                android:padding="6dp">
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_weight="0"
+        android:src="@mipmap/ic_new_notebook"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_item_notebook_title"
+            android:textStyle="bold"
+            tools:text="Notebook Title"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_item_notebook_date"
+            android:textColor="@color/colorPrimary"
+            android:layout_gravity="end"
+            android:layout_below="@id/list_item_notebook_title"
+            tools:text="Notebook Date"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_item_notebook_count"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="right"
+            android:layout_toRightOf="@id/list_item_notebook_title"
+            tools:text="Note Count"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 
+import com.mememachine.mike.laboratorynotehelper.general.SingleFragmentActivity;
+
 import java.util.UUID;
 
-public class NewNoteActivity  extends SingleFragmentActivity{
+public class NoteEditorActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_NOTE_ID_NUM =
             "com.mememachine.mike.laboratorynotehelper.note_id";
@@ -18,11 +20,11 @@ public class NewNoteActivity  extends SingleFragmentActivity{
     protected Fragment createFragment() {
         UUID uuid = (UUID) getIntent()
                 .getSerializableExtra(EXTRA_NOTE_ID_NUM);
-        return NoteFragmentEdit.newInstance(uuid);
+        return NoteEditorFragment.newInstance(uuid);
     }
 
     public static Intent newIntent(Context packageContext, UUID uuid){
-        Intent intent = new Intent(packageContext, NewNoteActivity.class);
+        Intent intent = new Intent(packageContext, NoteEditorActivity.class);
         intent.putExtra(EXTRA_NOTE_ID_NUM, uuid);
         return intent;
     }
@@ -36,7 +38,7 @@ public class NewNoteActivity  extends SingleFragmentActivity{
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                NewNoteActivity.super.onBackPressed();
+                                NoteEditorActivity.super.onBackPressed();
                             }
                         }).create().show();
     }

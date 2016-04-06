@@ -34,7 +34,7 @@ import java.util.UUID;
 /**
  * Instantiates a fragment instance of a selected note, and inflates the layout.
  */
-public class NoteFragmentEdit extends Fragment{
+public class NoteEditorFragment extends Fragment{
     private static final String ARG_NOTE_ID = "note_id";
     private static final int REQUEST_PHOTO = 2;
 
@@ -48,13 +48,13 @@ public class NoteFragmentEdit extends Fragment{
     private ImageView mNotePhotoView;
     private ImageButton mImageButton;
 
-    public static NoteFragmentEdit newInstance(UUID noteID){
-        //Returns an instance of NoteFragmentEdit.class corresponding
+    public static NoteEditorFragment newInstance(UUID noteID){
+        //Returns an instance of NoteEditorFragment.class corresponding
         //to the given UUID.
         Bundle args = new Bundle();
         args.putSerializable(ARG_NOTE_ID, noteID);
 
-        NoteFragmentEdit fragment = new NoteFragmentEdit();
+        NoteEditorFragment fragment = new NoteEditorFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,15 +63,15 @@ public class NoteFragmentEdit extends Fragment{
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         UUID noteID = (UUID) getArguments().getSerializable(ARG_NOTE_ID);
-        mNote = ListOfNotes.get(getActivity()).getNote(noteID);
-        mNotePhoto = ListOfNotes.get(getActivity()).getPhotoFile(mNote);
+        mNote = DatabaseFunctions.get(getActivity()).getNote(noteID);
+        mNotePhoto = DatabaseFunctions.get(getActivity()).getPhotoFile(mNote);
         setHasOptionsMenu(true);
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        ListOfNotes.get(getActivity()).updateNote(mNote);
+        DatabaseFunctions.get(getActivity()).updateNote(mNote);
     }
 
     @Override
@@ -167,7 +167,7 @@ public class NoteFragmentEdit extends Fragment{
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ListOfNotes.get(getActivity()).updateNote(mNote);
+                DatabaseFunctions.get(getActivity()).updateNote(mNote);
                 Toast.makeText(getContext(),
                         "Note Updated!", Toast.LENGTH_SHORT).show();
                 Intent intent = NotePagerActivity.newIntent(getActivity(), mNote.getID());
@@ -214,7 +214,7 @@ public class NoteFragmentEdit extends Fragment{
                                 //TODO delete Note from database
                                 //Switching between activities is a bit easier than switching from
                                 //different Fragments.
-                                ListOfNotes.get(getActivity()).deleteNote(mNote);
+                                DatabaseFunctions.get(getActivity()).deleteNote(mNote);
                                 Intent intent = NoteListActivity.newIntent(getActivity());
                                 startActivity(intent);
 
