@@ -1,6 +1,6 @@
 # LaboratoryNoteHelper aka Lab Rat (working title)
 An app for storing laboratory notes in Android.
-
+<img src="labrat1.0.png" width="48">
 ![drawing](labrat1.0.png)
 
 TODO:
