@@ -55,8 +55,10 @@ public class DatabaseFunctions {
     public List<Note> getNotes(){
         //Get all notes form the SQLite db.
         List<Note> notes = new ArrayList<>();
-        DatabaseCursorWrapper cursorWrapper = queryDatabases(null, null, NoteSchema.NoteTable.TABLE_NOTES);
-
+        DatabaseCursorWrapper cursorWrapper = queryDatabases(
+                null,
+                null,
+                NoteSchema.NoteTable.TABLE_NOTES);
         try{
             cursorWrapper.moveToFirst();
             while (!cursorWrapper.isAfterLast()){
@@ -69,15 +71,20 @@ public class DatabaseFunctions {
         return notes;
     }
 
-    public void addNote(Note n) {
-        ContentValues values = getContentValues(n);
-        mSQLiteDatabase.insert(NoteSchema.NoteTable.TABLE_NOTES, null, values);
+
+    public void addNote(Note n, UUID notebookID) {
+        ContentValues valuesNote = getContentValues(n);
+        ContentValues valuesLinker = getContentValues(n, notebookID);
+        mSQLiteDatabase.insert(NoteSchema.NoteTable.TABLE_NOTES, null, valuesNote);
+        mSQLiteDatabase.insert(NoteSchema.NoteTable.TABLE_NOTE_NOTEBOOK_LINKER, null, valuesLinker);
     }
 
     public void deleteNote(Note n) {
         String id = n.getID().toString();
         mSQLiteDatabase.delete(NoteSchema.NoteTable.TABLE_NOTES,
                 NoteSchema.NoteTable.Cols.UUID + "= ?", new String[]{id});
+        mSQLiteDatabase.delete(NoteSchema.NoteTable.TABLE_NOTE_NOTEBOOK_LINKER,
+                NoteSchema.NoteTable.Cols.NOTE_ID + "= ?", new String[]{id});
     }
 
     public Note getNote(UUID id){
@@ -92,7 +99,6 @@ public class DatabaseFunctions {
             if (cursorWrapper.getCount() == 0) {
                 return null;
             }
-
             cursorWrapper.moveToFirst();
             return cursorWrapper.getNote();
         } finally {
@@ -127,6 +133,13 @@ public class DatabaseFunctions {
         values.put(NoteSchema.NoteTable.Cols.CELLTYPE, note.getCellType());
         values.put(NoteSchema.NoteTable.Cols.BODY, note.getBody());
 
+        return values;
+    }
+
+    private static ContentValues getContentValues(Note note, UUID notebookID){
+        ContentValues values = new ContentValues();
+        values.put(NoteSchema.NoteTable.Cols.NOTE_ID, note.getID().toString());
+        values.put(NoteSchema.NoteTable.Cols.NOTEBOOK_ID, notebookID.toString());
         return values;
     }
 
@@ -179,9 +192,12 @@ public class DatabaseFunctions {
         String id = nb.getID().toString();
         mSQLiteDatabase.delete(NoteSchema.NoteTable.TABLE_NOTEBOOKS,
                 NoteSchema.NoteTable.Cols.UUID + "= ?", new String[]{id});
+        mSQLiteDatabase.delete(NoteSchema.NoteTable.TABLE_NOTE_NOTEBOOK_LINKER,
+                NoteSchema.NoteTable.Cols.NOTEBOOK_ID + "= ?", new String[]{id});
     }
 
     public void updateNotebook(Notebook nb) {
+        //TODO, allow the user to edit a notebook's title.
         String uuidString = nb.getID().toString();
         ContentValues values = getContentValues(nb);
         mSQLiteDatabase.update(NoteSchema.NoteTable.TABLE_NOTEBOOKS, //Table
@@ -200,5 +216,4 @@ public class DatabaseFunctions {
 
         return values;
     }
-
 }

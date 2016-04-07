@@ -22,7 +22,6 @@
                 android:id="@+id/note_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="8dp"
                 android:scaleType="centerInside"
                 android:background="@color/lightGrey"
                 android:cropToPadding="true"/>
@@ -87,12 +86,10 @@
                 style="?android:listSeparatorTextViewStyle"/>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_gravity="center_horizontal">
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -100,23 +97,20 @@
                     android:gravity="start"
                     android:hint="@string/note_body_hint"
                     android:inputType="textCapSentences|textMultiLine"
-                    android:layout_gravity="left|top"
-                    android:paddingRight="8dp"
-                    android:layout_weight="0.15"/>
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_gravity="top"
+                    android:paddingBottom="8dp"
+                    android:layout_weight="1"/>
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@android:drawable/ic_menu_edit"
                     android:id="@+id/image_button_finished_edit"
-                    android:bottomRightRadius="10dp"
-                    android:bottomLeftRadius="10dp"
-                    android:topLeftRadius="10dp"
-                    android:topRightRadius="10dp"
-                    android:layout_weight="0.85"
-                    android:paddingTop="24dp"
-                    android:paddingBottom="24dp"
+                    android:layout_weight="0"
+                    android:padding="16dp"
                     android:background="@android:color/darker_gray"
-                    android:layout_gravity="right|center"/>
+                    android:layout_gravity="bottom"/>
 
             </LinearLayout>
         </LinearLayout>

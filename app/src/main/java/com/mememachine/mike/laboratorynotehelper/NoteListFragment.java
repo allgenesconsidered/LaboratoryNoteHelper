@@ -18,26 +18,42 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mememachine.mike.laboratorynotehelper.database.NoteBaseHelper;
 import com.mememachine.mike.laboratorynotehelper.general.GenAppContext;
 import com.mememachine.mike.laboratorynotehelper.imageRes.PictureUtils;
 import com.mememachine.mike.laboratorynotehelper.imageRes.SimpleDividerItemDecoration;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 
 public class NoteListFragment extends Fragment{
 
     private static final String SUBTITLE_VISIBLE_BOOL = "isSubtitleVisible";
+    private static final String ARG_NOTEBOOK_ID =
+            "com.mememachine.mike.laboratorynotehelper.notebook_id";
 
+    private UUID mNotebookID;
     private RecyclerView mNoteRecycleView;
     private NoteAdapter mAdapter;
     private FloatingActionButton mFloatingActionButton;
     private boolean mSubtitleVisible;
 
+    public static NoteListFragment newInstance(UUID noteID){
+        //Returns an instance of class corresponding
+        //to the given UUID.
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_NOTEBOOK_ID, noteID);
+        NoteListFragment fragment = new NoteListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        mNotebookID = (UUID) getArguments().getSerializable(ARG_NOTEBOOK_ID);
         //Set to TRUE to tell the activity it has a menu item.
         setHasOptionsMenu(true);
     }
@@ -185,7 +201,7 @@ public class NoteListFragment extends Fragment{
 
     private void addNewNote(){
         Note note = new Note();
-        DatabaseFunctions.get(getActivity()).addNote(note);
+        DatabaseFunctions.get(getActivity()).addNote(note, mNotebookID);
         Intent intent = NoteEditorActivity
                 .newIntent(getActivity(), note.getID());
         startActivity(intent);
@@ -207,8 +223,8 @@ public class NoteListFragment extends Fragment{
     }
 
     private void updateUI(){
-        DatabaseFunctions listNotes = DatabaseFunctions.get(getActivity());
-        List<Note> notes = listNotes.getNotes();
+        NoteBaseHelper listNotes = NoteBaseHelper.get(getActivity());
+        List<Note> notes = listNotes.getNotesByNotebookID(mNotebookID.toString());
 
         if(mAdapter == null) {
             mAdapter = new NoteAdapter(notes);

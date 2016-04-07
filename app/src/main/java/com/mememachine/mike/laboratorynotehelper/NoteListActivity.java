@@ -16,18 +16,20 @@ public class NoteListActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_NOTEBOOK_ID =
             "com.mememachine.mike.laboratorynotehelper.notebook_id";
+    static UUID mNotebookUUID;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
-        UUID nbid = (UUID) getIntent().getSerializableExtra(EXTRA_NOTEBOOK_ID);
-        Notebook notebook = DatabaseFunctions.get(this).getNotebook(nbid);
+        if (getIntent().hasExtra(EXTRA_NOTEBOOK_ID)){
+            mNotebookUUID = (UUID) getIntent().getSerializableExtra(EXTRA_NOTEBOOK_ID);}
+        Notebook notebook = DatabaseFunctions.get(this).getNotebook(mNotebookUUID);
         setTitle(notebook.getTitle());
         super.onCreate(savedInstanceState);
     }
     //First class called at start of application. Instantiates NoteListFragment.class.
     @Override
     protected Fragment createFragment() {
-        return new NoteListFragment();
+        return NoteListFragment.newInstance(mNotebookUUID);
     }
 
     public static Intent newIntent(Context packageContext){

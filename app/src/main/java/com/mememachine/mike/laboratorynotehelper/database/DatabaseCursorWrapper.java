@@ -7,7 +7,9 @@ import android.database.CursorWrapper;
 import com.mememachine.mike.laboratorynotehelper.Note;
 import com.mememachine.mike.laboratorynotehelper.Notebook;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class DatabaseCursorWrapper extends CursorWrapper{
@@ -42,7 +44,10 @@ public class DatabaseCursorWrapper extends CursorWrapper{
         notebook.setDate(new Date(date));
         notebook.setColor(color);
 
-
         return notebook;
+    }
+
+    public String getNoteIDs(UUID id){
+        return getString(getColumnIndex(NoteSchema.NoteTable.Cols.NOTE_ID));
     }
 }
