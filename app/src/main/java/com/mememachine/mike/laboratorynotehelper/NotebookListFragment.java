@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.mememachine.mike.laboratorynotehelper.database.NoteBaseHelper;
 import com.mememachine.mike.laboratorynotehelper.general.GenAppContext;
 import com.mememachine.mike.laboratorynotehelper.imageRes.SimpleDividerItemDecoration;
 
@@ -70,7 +71,12 @@ public class NotebookListFragment extends Fragment{
             mTitleTextView.setText(mNotebook.getTitle());
             mDateTextView.setText(mNotebook.getStringDate());
             DatabaseFunctions noteList = DatabaseFunctions.get(getActivity());
-            int noteCount = noteList.getNotes().size();
+            int noteCount;
+            if( noteList.getNotes(mNotebook.getID()) == null){
+                noteCount = 0;
+            } else {
+                noteCount = noteList.getNotes(mNotebook.getID()).size();
+            }
             String count = getResources()
                     .getQuantityString(R.plurals.subtitle_plural,
                             noteCount, noteCount);

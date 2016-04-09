@@ -36,18 +36,52 @@ public class DatabaseFunctions {
     }
     //General Functions -------------------------------------------------------
     ///////////////////////////////////////////////////////////////////////////
-    private DatabaseCursorWrapper queryDatabases(String whereClause, String[] whereArgs, String table) {
+    private DatabaseCursorWrapper queryDatabases(String[] columns ,String whereClause, String[] whereArgs, String table) {
         //Read in data to the table.
         Cursor cursor = mSQLiteDatabase.query(
                 table,
-                null, //Columns, null for all columns
-                whereClause,
-                whereArgs,
+                columns, //Columns, null for all columns
+                whereClause, // selection
+                whereArgs, // selectionArgs
                 null, //groupBy
                 null, //having?
                 null //orderBy
         );
         return new DatabaseCursorWrapper(cursor);
+    }
+
+    public String[] getNoteIDsforBook(String notebookID){
+        List<String> noteIDs = new ArrayList<String>();
+        DatabaseCursorWrapper cursorWrapper = queryDatabases(
+                new String[]{NoteSchema.NoteTable.Cols.NOTE_ID, NoteSchema.NoteTable.Cols.NOTEBOOK_ID},
+                NoteSchema.NoteTable.Cols.NOTEBOOK_ID + "= ?",
+                new String[]{notebookID},
+                NoteSchema.NoteTable.TABLE_NOTE_NOTEBOOK_LINKER);
+        try{
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()){
+                noteIDs.add(cursorWrapper.getNoteIDs());
+                cursorWrapper.moveToNext();
+            }
+        } finally {
+            cursorWrapper.close();
+        }
+        String[] stringIDs = noteIDs.toArray(new String[0]);
+        return stringIDs;
+    }
+
+    String makePlaceholders(int len) {
+        if (len < 1) {
+            // It will lead to an invalid query anyway ..
+            throw new RuntimeException("No placeholders");
+        } else {
+            StringBuilder sb = new StringBuilder(len * 2 - 1);
+            sb.append("?");
+            for (int i = 1; i < len; i++) {
+                sb.append(",?");
+            }
+            return sb.toString();
+        }
     }
 
     //Note Functions -------------------------------------------------------
@@ -58,6 +92,30 @@ public class DatabaseFunctions {
         DatabaseCursorWrapper cursorWrapper = queryDatabases(
                 null,
                 null,
+                null,
+                NoteSchema.NoteTable.TABLE_NOTES);
+        try{
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()){
+                notes.add(cursorWrapper.getNote());
+                cursorWrapper.moveToNext();
+            }
+        } finally {
+            cursorWrapper.close();
+        }
+        return notes;
+    }
+
+    public List<Note> getNotes(UUID notebookID){
+        List<Note> notes = new ArrayList<>();
+        String [] ids = getNoteIDsforBook(notebookID.toString());
+        if (ids.length == 0){
+            return null;
+        }
+        DatabaseCursorWrapper cursorWrapper = queryDatabases(
+                null,
+                NoteSchema.NoteTable.Cols.UUID + " IN (" + makePlaceholders(ids.length) + ")" ,
+                ids,
                 NoteSchema.NoteTable.TABLE_NOTES);
         try{
             cursorWrapper.moveToFirst();
@@ -90,11 +148,10 @@ public class DatabaseFunctions {
     public Note getNote(UUID id){
         //Returns a note with a certain ID
         DatabaseCursorWrapper cursorWrapper = queryDatabases(
+                null,
                 NoteSchema.NoteTable.Cols.UUID + " = ?",
                 new String[]{id.toString()},
-                NoteSchema.NoteTable.TABLE_NOTES
-        );
-
+                NoteSchema.NoteTable.TABLE_NOTES);
         try {
             if (cursorWrapper.getCount() == 0) {
                 return null;
@@ -150,7 +207,7 @@ public class DatabaseFunctions {
         //Get all notes form the SQLite db.
         //No arguments, Outputs a List of Notebook items.
         List<Notebook> notebooks = new ArrayList<>();
-        DatabaseCursorWrapper cursorWrapper = queryDatabases(null, null, NoteSchema.NoteTable.TABLE_NOTEBOOKS);
+        DatabaseCursorWrapper cursorWrapper = queryDatabases(null,null, null, NoteSchema.NoteTable.TABLE_NOTEBOOKS);
 
         try{
             cursorWrapper.moveToFirst();
@@ -167,6 +224,7 @@ public class DatabaseFunctions {
     public Notebook getNotebook(UUID id) {
         //Returns a notebook with a certain ID
         DatabaseCursorWrapper cursorWrapper = queryDatabases(
+                null,
                 NoteSchema.NoteTable.Cols.UUID + " = ?",
                 new String[]{id.toString()},
                 NoteSchema.NoteTable.TABLE_NOTEBOOKS

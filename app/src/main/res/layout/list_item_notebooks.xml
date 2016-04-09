@@ -15,14 +15,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_weight="1">
-        <TextView
-            android:layout_width="wrap_content"
+        android:padding="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/list_item_notebook_title"
-            android:textStyle="bold"
-            tools:text="Notebook Title"/>
+            android:id="@+id/line1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/list_item_notebook_title"
+                android:textStyle="bold"
+                tools:text="Notebook Title"
+                android:layout_weight = ".33"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/list_item_notebook_count"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="end"
+                android:layout_toRightOf="@id/list_item_notebook_title"
+                tools:text="Note Count"
+                android:layout_weight = ".66"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -30,16 +45,8 @@
             android:id="@+id/list_item_notebook_date"
             android:textColor="@color/colorPrimary"
             android:layout_gravity="end"
-            android:layout_below="@id/list_item_notebook_title"
+            android:layout_below="@id/line1"
             tools:text="Notebook Date"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/list_item_notebook_count"
-            android:textColor="@color/colorPrimaryDark"
-            android:gravity="right"
-            android:layout_toRightOf="@id/list_item_notebook_title"
-            tools:text="Note Count"/>
     </RelativeLayout>
 </LinearLayout>

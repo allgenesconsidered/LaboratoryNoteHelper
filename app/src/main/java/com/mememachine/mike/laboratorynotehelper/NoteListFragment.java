@@ -122,6 +122,9 @@ public class NoteListFragment extends Fragment{
 
         @Override
         public int getItemCount(){
+            if (mNotes == null){
+                return 0;
+            }
             return mNotes.size();
         }
 
@@ -223,8 +226,8 @@ public class NoteListFragment extends Fragment{
     }
 
     private void updateUI(){
-        NoteBaseHelper listNotes = NoteBaseHelper.get(getActivity());
-        List<Note> notes = listNotes.getNotesByNotebookID(mNotebookID.toString());
+        DatabaseFunctions listNotes = DatabaseFunctions.get(getActivity());
+        List<Note> notes = listNotes.getNotes(mNotebookID);
 
         if(mAdapter == null) {
             mAdapter = new NoteAdapter(notes);

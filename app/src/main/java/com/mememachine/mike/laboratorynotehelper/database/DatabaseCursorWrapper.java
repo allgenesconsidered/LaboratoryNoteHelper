@@ -47,7 +47,7 @@ public class DatabaseCursorWrapper extends CursorWrapper{
         return notebook;
     }
 
-    public String getNoteIDs(UUID id){
+    public String getNoteIDs(){
         return getString(getColumnIndex(NoteSchema.NoteTable.Cols.NOTE_ID));
     }
 }
