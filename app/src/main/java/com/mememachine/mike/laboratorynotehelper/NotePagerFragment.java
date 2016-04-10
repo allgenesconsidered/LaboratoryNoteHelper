@@ -69,8 +69,19 @@ public class NotePagerFragment extends Fragment{
                              Bundle savedInstanceState){
         //inflater.inflate(int resource, Viewgroup root, boolean attached to root?)
         //We are explicitly inflating the fragment_crime.xml part of the resource
-        View v = inflater.inflate(R.layout.fragment_note_static, container, false);
+        View v = inflater.inflate(R.layout.fragment_note_static_imageless, container, false);
 
+        if (mNotePhoto != null && mNotePhoto.exists()) {
+            v = inflater.inflate(R.layout.fragment_note_static, container, false);
+            mNotePhotoView = (ImageView) v.findViewById(R.id.note_photo);
+            updatePhotoView(mNotePhotoView, mNotePhoto);
+            mNotePhotoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showZoomed();
+                }
+            });
+        }
         mTitleField = (TextView) v.findViewById(R.id.note_title);
         mTitleField.setText(mNote.getTitle());
 
@@ -80,16 +91,6 @@ public class NotePagerFragment extends Fragment{
         mBodyField = (TextView) v.findViewById(R.id.note_body);
         mBodyField.setText(mNote.getBody());
 
-        mNotePhotoView = (ImageView) v.findViewById(R.id.note_photo);
-        updatePhotoView(mNotePhotoView, mNotePhoto);
-        if (mNotePhoto != null && mNotePhoto.exists()) {
-            mNotePhotoView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showZoomed();
-                }
-            });
-        }
         //Explicitly return the view that was inflated.
         return v;
     }
