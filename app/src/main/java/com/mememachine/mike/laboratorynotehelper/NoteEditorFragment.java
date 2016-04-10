@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mememachine.mike.laboratorynotehelper.imageRes.PictureUtils;
@@ -41,9 +42,8 @@ public class NoteEditorFragment extends Fragment{
     private Note mNote;
     private File mNotePhoto;
     private EditText mTitleField;
-    private EditText mCellTypeField;
     private EditText mBodyField;
-    private Button mDateButton;
+    private TextView mDateView;
     private FloatingActionButton mFabTakePicture;
     private ImageView mNotePhotoView;
     private ImageButton mImageButton;
@@ -103,28 +103,9 @@ public class NoteEditorFragment extends Fragment{
             }
         });
 
-        mDateButton = (Button) v.findViewById(R.id.note_date);
-        mDateButton.setText(mNote.getStringDate());
-        mDateButton.setEnabled(false);
-
-        mCellTypeField = (EditText) v.findViewById(R.id.note_celltype);
-        mCellTypeField.setText(mNote.getCellType());
-        mCellTypeField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //None
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mNote.setCellType(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                //None
-            }
-        });
+        mDateView = (TextView) v.findViewById(R.id.note_date);
+        mDateView.setText(mNote.getStringDate());
+        mDateView.setEnabled(false);
 
         mBodyField = (EditText) v.findViewById(R.id.note_body);
         mBodyField.setText(mNote.getBody());

@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +20,8 @@ import com.mememachine.mike.laboratorynotehelper.imageRes.PictureUtils;
 
 import java.io.File;
 import java.util.UUID;
+
+import static android.support.v7.app.AlertDialog.*;
 
 /**
  * Instantiates a fragment instance of a selected note, and inflates the layout.
@@ -31,9 +32,8 @@ public class NotePagerFragment extends Fragment{
     public File mNotePhoto;
     private Note mNote;
     private TextView mTitleField;
-    private TextView mCellTypeField;
     private TextView mBodyField;
-    private Button mDateButton;
+    private TextView mDateField;
     private ImageView mNotePhotoView;
 
     public static NotePagerFragment newInstance(UUID noteID){
@@ -74,19 +74,22 @@ public class NotePagerFragment extends Fragment{
         mTitleField = (TextView) v.findViewById(R.id.note_title);
         mTitleField.setText(mNote.getTitle());
 
-        mDateButton = (Button) v.findViewById(R.id.note_date);
-        mDateButton.setText(mNote.getStringDate());
-        mDateButton.setEnabled(false);
-
-        mCellTypeField = (TextView) v.findViewById(R.id.note_celltype);
-        mCellTypeField.setText(mNote.getCellType());
+        mDateField = (TextView) v.findViewById(R.id.note_date);
+        mDateField.setText(mNote.getStringDate());
 
         mBodyField = (TextView) v.findViewById(R.id.note_body);
         mBodyField.setText(mNote.getBody());
 
         mNotePhotoView = (ImageView) v.findViewById(R.id.note_photo);
         updatePhotoView(mNotePhotoView, mNotePhoto);
-
+        if (mNotePhoto != null && mNotePhoto.exists()) {
+            mNotePhotoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showZoomed();
+                }
+            });
+        }
         //Explicitly return the view that was inflated.
         return v;
     }
@@ -142,6 +145,21 @@ public class NotePagerFragment extends Fragment{
                     file.getPath(), getActivity());
             imageView.setImageBitmap(bitmap);
         }
+    }
+
+    private void showZoomed(){
+        Builder alert = new Builder(getContext());
+        final ImageView imageView = new ImageView(getContext());
+        imageView.setRotation((float) 90);
+        updatePhotoView(imageView, mNotePhoto);
+        alert.setView(imageView);
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                return;
+            }
+        });
+        alert.show();
     }
 
 }

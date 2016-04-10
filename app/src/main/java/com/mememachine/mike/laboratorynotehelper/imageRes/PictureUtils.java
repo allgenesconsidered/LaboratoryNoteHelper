@@ -28,13 +28,19 @@ public class PictureUtils {
         BitmapFactory.decodeFile(path, options);
 
         float srcWidth = options.outWidth;
+        float srcHeight = options.outHeight;
 
         //Figure out how much to scale down by
-        if (srcWidth > destWidth) {
-            int widthRatio = (int) Math.round((srcWidth / (float) destWidth) * 1.5);
-            options = new BitmapFactory.Options();
-            options.inSampleSize = widthRatio;
+        int inSampleSize = 1;
+        if (srcHeight > destHeight || srcWidth > destWidth) {
+            if (srcWidth > srcHeight) {
+                inSampleSize = Math.round(srcHeight / destHeight);
+            } else {
+                inSampleSize = Math.round(srcWidth / destWidth);
+            }
         }
+        options = new BitmapFactory.Options();
+        options.inSampleSize = inSampleSize;
         return BitmapFactory.decodeFile(path, options);
     }
 
